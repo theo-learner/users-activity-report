@@ -2,6 +2,7 @@ type ReportUserData = {
     isOrgMember: boolean
     isActive: boolean
     commits: number
+    commitUrls: string[];
     createdIssues: number
     issueComments: number
     createdPrs: number
@@ -52,6 +53,7 @@ export class ReportData {
                 isOrgMember: false,
                 isActive: false,
                 commits: 0,
+                commitUrls: [],
                 createdIssues: 0,
                 issueComments: 0,
                 createdPrs: 0,
@@ -74,8 +76,10 @@ export class ReportData {
         this.getOrCreateUserData(userName).isActive = true
     }
 
-    addCommit(userName: string): void {
-        this.getOrCreateUserData(userName).commits++
+    addCommit(userName: string, commitUrl: string): void {
+        const userData = this.getOrCreateUserData(userName)
+        userData.commits++
+        userData.commitUrls.push(commitUrl)
         this.setActive(userName)
     }
 

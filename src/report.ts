@@ -33,8 +33,8 @@ export async function createReport(token: string, organization: string, since: D
         }
       }
       for (const commit of uniqueCommits.values()) {
-        if (commit.author) { // imported commits might not have a Github user reference and are ignored in the report
-          report.addCommit(commit.author)
+        if (commit.author && commit.url) { // imported commits might not have a Github user reference and are ignored in the report
+          report.addCommit(commit.author, commit.url)
         }
       }
     }

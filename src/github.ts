@@ -166,6 +166,7 @@ export class GithubApi {
   async getBranchCommits(branchId: string, since: string, until: string): Promise<{
     author?: string
     oid: string
+    url: string
   }[]> {
     const result = await this.octokit.graphql.paginate<{
       node: {
@@ -173,6 +174,7 @@ export class GithubApi {
           history: {
             nodes: {
               oid: string // = git commit hash
+              url: string
               author: {
                 user?: {
                   login: string
@@ -192,6 +194,7 @@ export class GithubApi {
                   nodes {
                     ... on Commit {
                       oid
+                      url
                       author {
                         user {
                           login
@@ -217,7 +220,8 @@ export class GithubApi {
     )
     return result.node.target.history.nodes.map(n => ({
       author: n.author.user?.login,
-      oid: n.oid
+      oid: n.oid,
+      url: n.url
     }))
   }
 
